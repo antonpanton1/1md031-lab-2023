@@ -1,5 +1,66 @@
-h1 {
-  color: green
+h3 {
+  color: blue;
 }
 
+body{
+  font-family: "Comic Sans MS", "Comic Sans",cursive;
+}
 
+.FoodDescription {
+  color: green;
+  font-weight: bold;
+}
+
+div *{
+  margin:10px 10px;
+}
+
+#orderBurger{
+  color: white;
+  background-color: black;
+  padding: 20px 20px;
+  border: 3px dashed white;
+}
+
+button:hover{
+  background-color: aquamarine;
+  cursor: progress;
+}
+
+#orderBurger{
+  margin: 50px 50px 50px 50px;
+}
+
+#CustomerInfo{
+  margin: 50px 50px 50px 50px;
+  padding: 20px 20px;
+  border: 3px dotted black;
+}
+
+#buttonId{
+  margin: 50px  ;
+}
+
+.title{
+  margin: 50px 50px 50px 50px; 
+  overflow:hidden;
+  height: 200px;
+  
+}
+
+#pic{
+  opacity: 0.5;
+  width: 100%;
+  height: auto;
+}
+
+#text{
+  position:absolute;
+  margin-top: -900px;
+}
+
+.wrapper{
+  display: grid;
+  grid-gap: 10px;
+  grid-template-columns: 400px 400px 400px;
+}
