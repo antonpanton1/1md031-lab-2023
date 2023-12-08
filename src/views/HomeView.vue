@@ -1,22 +1,118 @@
 <template>
-  <div>
-    <div>
-      <h1>Burgers</h1>
-      <Burger v-for="burger in burgers"
+<header>
+        <img src="https://readwrite.com/wp-content/uploads/2019/05/Mural-Paintings-and-the-Impact-of-Colors-in-Our-Lives-825x500.jpg" alt="fast food header" style = "height: 150px; width: 1600px;" >
+
+        <section class="head_text">
+            <h1>
+                Welcome to BugerHeavan!
+            </h1>
+        </section>
+        
+    </header>
+    
+    
+    <main>
+        <section id="burger_info">
+            <section id="burger_info_header">
+                <h3>Select your burger</h3>
+                <p>This is where you select and customize your burger</p>
+            </section>
+            
+            <div class="burger_wrapper">
+              
+              <Burger v-for="burger in burgers"
               v-bind:burger="burger" 
-              v-bind:key="burger.name"/>
-    </div>
-    <div id="map" v-on:click="addOrder">
-      click here
-    </div>
-  </div>
+              v-bind:key="burger.name"
+              v-on:orderedBurger= "addToOrder($event)"/>
+              </div>
+
+        </section>
+
+        <section class="delivery_info">
+          <h2> Customer information</h2>  
+            <p> This is where you provide necessary information like allergies </p>
+
+            <p>
+                <label for="firstname">Full name</label><br>
+                <input type="text" id="name" v-model="ne" required="required" placeholder="First- and last name">
+            </p>
+            <p>
+                <label for="email">Email</label><br>
+                <input type="email" id="email" v-model="em" placeholder="email">
+            </p>
+            <p>
+                <label for="street">Street</label><br>
+                <input type="text" id="street" v-model="st" required="required" placeholder="street">
+            </p>
+            <p>
+                <label for="housenr">House number</label><br>
+                <input type="number" id="housenr" v-model="nr" required="required" placeholder="Street number">
+            </p>
+
+            <p>
+                <label for="payment">Payment method</label><br>
+                <select id="payment" v-model="p">
+                    <option>Master Card</option>
+                    <option>Swish</option>
+                    <option>Paypal</option>
+                    <option>Venmo</option>
+                    <option>Dougnhuths</option>
+
+                </select>
+            </p>
+
+            <p>
+
+                <label for="gender">Man</label>
+                <input type="radio" v-model="gr" value="female">
+                <label for="gender">Woman</label>
+                <input type="radio" v-model="gr" value="Male">
+                <label for="gender">No thanks</label>
+                <input type="radio" v-model="gr" checked="checked" value="other">
+            </p>
+        </section>
+
+        <div id="mapWrap">
+          click here
+          <div id="map"  v-on:click="addOrder">
+          
+          </div>
+        </div>
+
+        <button type="submit" v-on:click="order">
+            <img src="https://cdn5.vectorstock.com/i/1000x1000/34/29/basket-icon-in-modern-style-for-web-site-vector-26533429.jpg" alt="Span" title = "Another in-line element" style = "width: 30px;">
+            Place order
+        </button>
+    </main>
+
+    <footer>
+        <hr>
+        Burgers!  Burgers!     Burgers!     Burgers!     Burgers!     Burgers!     Burgers!     Burgers!         Burgers!      Burgers!      Burgers!      Burgers!      Burgers!      Burgers!      Burgers! 
+    </footer> 
+
 </template>
 
 <script>
 import Burger from '../components/OneBurger.vue'
 import io from 'socket.io-client'
+import menu from '../Assets/menu.json'
 
 const socket = io();
+/*
+function MenuItem (name, url, kcal,gluten,lactose){
+  this.productName = name;
+  this.link = url;
+  this.kCal = kcal;
+  this.gluten = gluten;
+  this.lactose = lactose;
+}
+  const arrayOfBurgers = [
+    new MenuItem("Dobbel Puck deluxe","https://bbqlovers.se/wp-content/uploads/2017/04/Smashburgare2-300x251.jpg", 1200, true, true),
+    new MenuItem("Breacky muffin", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcToFztV9KPQVABUUwJFbZKyo_Kz4yw4nrjB4g&usqp=CAU", 450, true, false ),
+    new MenuItem("Big chicken","https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRcF_9i4edK1S56jzkObFRDAkSYvCti5n9MIg&usqp=CAU", 750, true, true )
+  ];
+  console.log(arrayOfBurgers);
+*/
 
 export default {
   name: 'HomeView',
@@ -25,10 +121,14 @@ export default {
   },
   data: function () {
     return {
-      burgers: [ {name: "small burger", kCal: 250},
-                 {name: "standard burger", kCal: 450},
-                 {name: "large burger", kCal: 850}
-               ]
+      burgers: menu,
+      p:'',
+      st:'',
+      ne:'',
+      em:'',
+      gr: '',
+      location:{x: 0, y: 0}
+  
     }
   },
   methods: {
@@ -44,15 +144,72 @@ export default {
                                 orderItems: ["Beans", "Curry"]
                               }
                  );
-    }
+    },
+    order: function(event){
+      console.log(this.p,this.st,this.ne,this.em,this.gr)
+    },
+    addToOrder: function (event) {
+      this.orderedBurgers[event.name] = event.amount;
+      console.log(this.orderedBurgers)
+},
   }
 }
 </script>
 
 <style>
   #map {
-    width: 300px;
-    height: 300px;
-    background-color: red;
+    width: 1920px;
+    height: 1078px;
+    background:url("../../public/img/polacks.jpg");
   }
+  #mapWrap{
+    width: 500px;
+    height: 500px;
+    overflow: scroll;
+  }
+  
+
+h3 {
+  color: blue;
+}
+
+body{
+  font-family: "Comic Sans MS", "Comic Sans",cursive;
+}
+
+.head_text{
+  margin: 50px 50px 50px 50px; 
+  overflow:hidden;
+  height: 100px;
+}
+
+  #burger_info{
+    color: white;
+    background-color: black;
+    padding: 20px 20px;
+    border: 3px dashed white;
+  }
+
+  .burger_wrapper{
+    display: grid;
+    grid-gap: 10px;
+    grid-template-columns: 400px 400px 400px; 
+  }
+
+  .burger_wrapper{
+    display: grid;
+    grid-gap: 10px;
+    grid-template-columns: 400px 400px 400px;
+  }
+
+  .delivery_info{
+    margin: 50px 50px 50px 50px;
+    padding: 20px 20px;
+    border: 3px dotted black;
+  }
+
+button:hover{
+  background-color: aquamarine;
+  cursor: progress;
+}
 </style>

@@ -1,0 +1,25 @@
+[
+    {
+        "name": "Dobbel Puck deluxe",
+        "url": "https://bbqlovers.se/wp-content/uploads/2017/04/Smashburgare2-300x251.jpg",
+        "kcal": 1250,
+        "gluten": true,
+        "lactose": true
+    },
+
+    {
+        "name": "Breacky muffin",
+        "url": "https://www.beyondthechickencoop.com/wp-content/uploads/2022/02/English-Muffin-Breakfast-Sandwich.jpg",
+        "kcal": 500,
+        "gluten": false,
+        "lactose": true
+    },
+
+    {
+        "name": "Big chicken",
+        "url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRcF_9i4edK1S56jzkObFRDAkSYvCti5n9MIg&usqp=CAU",
+        "kcal": 750,
+        "gluten": false,
+        "lactose": false
+    }
+]
