@@ -35,11 +35,11 @@
     },
     data: function (){
       return {
-        amountOrdered:0,
+        amountOrdered: 0,
       }
     },
     methods:{
-      addBurger: function(){
+      addBurger: function() {
         this.amountOrdered;
         this.$emit('orderedBurger', { name: this.burger.name,
                                       amount: this.amountOrdered

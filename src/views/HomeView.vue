@@ -21,10 +21,10 @@
             <div class="burger_wrapper">
               
               <Burger v-for="burger in burgers"
-              v-bind:burger="burger" 
-              v-bind:key="burger.name"
-              v-on:orderedBurger= "addToOrder($event)"/>
-              </div>
+                v-bind:burger="burger" 
+                v-bind:key="burger.name"
+                v-on:orderedBurger= "addToOrder($event)"/>
+            </div>
 
         </section>
 
@@ -40,14 +40,14 @@
                 <label for="email">Email</label><br>
                 <input type="email" id="email" v-model="em" placeholder="email">
             </p>
-            <p>
+            <!--<p>
                 <label for="street">Street</label><br>
                 <input type="text" id="street" v-model="st" required="required" placeholder="street">
             </p>
             <p>
                 <label for="housenr">House number</label><br>
                 <input type="number" id="housenr" v-model="nr" required="required" placeholder="Street number">
-            </p>
+            </p>-->
 
             <p>
                 <label for="payment">Payment method</label><br>
@@ -56,7 +56,6 @@
                     <option>Swish</option>
                     <option>Paypal</option>
                     <option>Venmo</option>
-                    <option>Dougnhuths</option>
 
                 </select>
             </p>
@@ -74,13 +73,15 @@
 
         <div id="mapWrap">
           click here
-          <div id="map"  v-on:click="addOrder">
-          
+          <div id="map"  v-on:click="setLocation">
+            <div v-bind:style="{left: this.location.x + 'px', top: this.location.y + 'px'}">
+              <span>T</span>
+            </div>
           </div>
         </div>
-
-        <button type="submit" v-on:click="order">
-            <img src="https://cdn5.vectorstock.com/i/1000x1000/34/29/basket-icon-in-modern-style-for-web-site-vector-26533429.jpg" alt="Span" title = "Another in-line element" style = "width: 30px;">
+        
+        <button type="submit" id="köpknapp" v-on:click="order">
+            <img src="https://cdn5.vectorstock.com/i/1000x1000/34/29/basket-icon-in-modern-style-for-web-site-vector-26533429.jpg" style = "width: 30px;">
             Place order
         </button>
     </main>
@@ -94,8 +95,8 @@
 
 <script>
 import Burger from '../components/OneBurger.vue'
-import io from 'socket.io-client'
 import menu from '../Assets/menu.json'
+import io from 'socket.io-client'
 
 const socket = io();
 /*
@@ -123,10 +124,11 @@ export default {
     return {
       burgers: menu,
       p:'',
-      st:'',
+      //st:'',
       ne:'',
       em:'',
       gr: '',
+      orderedBurgers: {},
       location:{x: 0, y: 0}
   
     }
@@ -135,23 +137,34 @@ export default {
     getOrderNumber: function () {
       return Math.floor(Math.random()*100000);
     },
-    addOrder: function (event) {
+    setLocation: function (event) {
       var offset = {x: event.currentTarget.getBoundingClientRect().left,
                     y: event.currentTarget.getBoundingClientRect().top};
-      socket.emit("addOrder", { orderId: this.getOrderNumber(),
-                                details: { x: event.clientX - 10 - offset.x,
-                                           y: event.clientY - 10 - offset.y },
-                                orderItems: ["Beans", "Curry"]
-                              }
-                 );
+      this.location = {x: event.clientX - 20 - offset.x, y: event.clientY - 10 - offset.y}              
+      console.log(this.location)
+      //console.log(this.p,this.st,this.ne,this.em,this.gr)
     },
-    order: function(event){
-      console.log(this.p,this.st,this.ne,this.em,this.gr)
+
+    order: function (event) {
+      console.log(this.p,this.ne,this.em,this.gr),
+      console.log(this.orderedBurgers),
+      socket.emit("addOrder", { orderId: this.getOrderNumber(),
+                                details: { x: this.location.x,
+                                           y: this.location.y },
+                                orderItems: this.orderedBurgers,
+                                personalInformation: {ne: this.ne,
+                                                      em: this.em,
+                                                      p: this.p,
+                                                      gr: this.gr}
+                                                      
+                              }
+                 );                         
+
     },
     addToOrder: function (event) {
       this.orderedBurgers[event.name] = event.amount;
       console.log(this.orderedBurgers)
-},
+    },
   }
 }
 </script>
@@ -162,13 +175,17 @@ export default {
     height: 1078px;
     background:url("../../public/img/polacks.jpg");
   }
+  
+  #map div {
+    position: relative;
+  }
+
   #mapWrap{
     width: 500px;
     height: 500px;
     overflow: scroll;
   }
   
-
 h3 {
   color: blue;
 }
@@ -211,5 +228,9 @@ body{
 button:hover{
   background-color: aquamarine;
   cursor: progress;
+}
+
+#köpknapp{
+  margin: 10px;
 }
 </style>
