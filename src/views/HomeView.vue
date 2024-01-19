@@ -63,9 +63,9 @@
             <p>
 
                 <label for="gender">Man</label>
-                <input type="radio" v-model="gr" value="female">
+                <input type="radio" v-model="gr" value="male">
                 <label for="gender">Woman</label>
-                <input type="radio" v-model="gr" value="Male">
+                <input type="radio" v-model="gr" value="female">
                 <label for="gender">No thanks</label>
                 <input type="radio" v-model="gr" checked="checked" value="other">
             </p>
@@ -127,7 +127,7 @@ export default {
       //st:'',
       ne:'',
       em:'',
-      gr: '',
+      gr: 'other',
       orderedBurgers: {},
       location:{x: 0, y: 0}
   
